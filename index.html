@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>PAMEC Futurista Pro</title>
+<link rel="icon" href="UNAD.ico" type="image/x-icon">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(circle, #0f2027, #203a43, #2c5364);
+    color: #00ffe5;
+}
+
+/* HEADER */
+.header {
+    background: rgba(0,0,0,0.7);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #00ffe5;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background: rgba(0,0,0,0.8);
+    position: fixed;
+    padding-top: 60px;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 15px;
+    background: none;
+    border: none;
+    color: #00ffe5;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background: #00ffe5;
+    color: black;
+}
+
+/* MAIN */
+.main {
+    margin-left: 220px;
+    padding: 20px;
+}
+
+.card {
+    background: rgba(0,0,0,0.6);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #00ffe5;
+}
+
+/* BOTONES */
+.opcion {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #00ffe5;
+    background: transparent;
+    color: #00ffe5;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.opcion:hover {
+    background: #00ffe5;
+    color: black;
+}
+
+.correcto { background: #00ff88; color: black; }
+.incorrecto { background: #ff0055; color: white; }
+
+/* LOGIN */
+#login {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    background: rgba(0,0,0,0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #00ffe5;
+    text-align: center;
+}
+
+input {
+    padding: 10px;
+    margin: 10px;
+    background: black;
+    color: #00ffe5;
+    border: 1px solid #00ffe5;
+}
+
+/* TABLA */
+table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #00ffe5;
+}
+
+th {
+    background: #00ffe5;
+    color: black;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="login">
+    <div class="login-box">
+        <h2>Ingreso al Sistema</h2>
+        <input type="text" id="nombre" placeholder="Ingresa tu nombre">
+        <br>
+        <button onclick="iniciar()">Entrar</button>
+    </div>
+</div>
+
+<div class="header">
+    <h2>🏥 PAMEC Futurista</h2>
+    <div id="usuario"></div>
+</div>
+
+<div class="sidebar">
+    <button onclick="mostrar('inicio')">🏠 Inicio</button>
+    <button onclick="mostrar('juego')">🎮 Simulación</button>
+    <button onclick="mostrar('ranking')">🏆 Ranking</button>
+</div>
+
+<div class="main">
+
+<div id="inicio" class="card">
+    <h2>Bienvenido</h2>
+    <p>Simulación del enfoque centrado en el usuario.</p>
+    <h3>Puntaje: <span id="puntajeBox">0</span></h3>
+</div>
+
+<div id="juego" class="card" style="display:none;">
+    <h2>🎮 Simulación Clínica</h2>
+    <h3 id="pregunta"></h3>
+    <div id="opciones"></div>
+    <p id="resultado"></p>
+</div>
+
+<div id="ranking" class="card" style="display:none;">
+    <h2>🏆 Mejores Puntajes</h2>
+    <table>
+        <thead>
+            <tr><th>#</th><th>Nombre</th><th>Puntaje</th></tr>
+        </thead>
+        <tbody id="tablaRanking"></tbody>
+    </table>
+</div>
+
+<div class="footer">
+    Desarrollado por Manuel Ricardo Chamorro Ruano 🚀
+</div>
+
+</div>
+
+<script>
+
+let usuario="";
+let puntaje=0;
+let indice=0;
+
+let preguntas=[
+{pregunta:"Paciente molesto por espera prolongada", opciones:[
+{text:"Ignorarlo", correcta:false},
+{text:"Responder brusco", correcta:false},
+{text:"Escuchar y explicar", correcta:true}
+]},
+{pregunta:"Paciente no entiende indicaciones", opciones:[
+{text:"Hablar rápido", correcta:false},
+{text:"No explicar", correcta:false},
+{text:"Explicar claro y verificar", correcta:true}
+]},
+{pregunta:"Paciente ansioso por diagnóstico", opciones:[
+{text:"Evitar contacto", correcta:false},
+{text:"Decir espere", correcta:false},
+{text:"Dar apoyo emocional", correcta:true}
+]},
+{pregunta:"Paciente inconforme con atención", opciones:[
+{text:"Discutir", correcta:false},
+{text:"Ignorar", correcta:false},
+{text:"Escuchar y buscar solución", correcta:true}
+]},
+{pregunta:"Familiar preocupado", opciones:[
+{text:"No responder", correcta:false},
+{text:"Responder seco", correcta:false},
+{text:"Informar con empatía", correcta:true}
+]}
+];
+
+function iniciar(){
+let n=document.getElementById("nombre").value;
+if(n===""){alert("Ingrese nombre");return;}
+usuario=n;
+document.getElementById("usuario").innerText="👤 "+usuario;
+document.getElementById("login").style.display="none";
+cargarPregunta();
+}
+
+function mostrar(s){
+["inicio","juego","ranking"].forEach(id=>document.getElementById(id).style.display="none");
+document.getElementById(s).style.display="block";
+if(s==="ranking") cargarRanking();
+}
+
+function cargarPregunta(){
+let p=preguntas[indice];
+document.getElementById("pregunta").innerText=p.pregunta;
+
+let html="";
+p.opciones.forEach((o,i)=>{
+html+=`<button class="opcion" onclick="responder(${i})">${o.text}</button>`;
+});
+
+document.getElementById("opciones").innerHTML=html;
+}
+
+function responder(i){
+let correcta=preguntas[indice].opciones[i].correcta;
+let btns=document.querySelectorAll(".opcion");
+
+btns.forEach(b=>b.disabled=true);
+
+if(correcta){
+btns[i].classList.add("correcto");
+puntaje+=10;
+document.getElementById("resultado").innerText="✅ Excelente decisión";
+}else{
+btns[i].classList.add("incorrecto");
+document.getElementById("resultado").innerText="❌ Mejora tu enfoque";
+}
+
+document.getElementById("puntajeBox").innerText=puntaje;
+
+setTimeout(()=>{
+indice++;
+if(indice<preguntas.length){
+cargarPregunta();
+}else{
+guardar();
+alert("Finalizado - Puntaje: "+puntaje);
+}
+},1500);
+}
+
+function guardar(){
+let r=JSON.parse(localStorage.getItem("ranking"))||[];
+r.push({nombre:usuario,puntaje:puntaje});
+r.sort((a,b)=>b.puntaje-a.puntaje);
+r=r.slice(0,5);
+localStorage.setItem("ranking",JSON.stringify(r));
+}
+
+function cargarRanking(){
+let r=JSON.parse(localStorage.getItem("ranking"))||[];
+let html="";
+r.forEach((e,i)=>{
+html+=`<tr><td>${i+1}</td><td>${e.nombre}</td><td>${e.puntaje}</td></tr>`;
+});
+document.getElementById("tablaRanking").innerHTML=html;
+}
+
+</script>
+
+</body>
+</html>
