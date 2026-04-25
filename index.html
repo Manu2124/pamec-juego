@@ -2,29 +2,30 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Sistema Hospitalario PAMEC</title>
+<title>PAMEC Futurista Pro</title>
 
 <style>
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: #f4f6f9;
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(circle, #0f2027, #203a43, #2c5364);
+    color: #00ffe5;
 }
 
 /* HEADER */
 .header {
-    background: #2c3e50;
-    color: white;
+    background: rgba(0,0,0,0.7);
     padding: 15px;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid #00ffe5;
 }
 
 /* SIDEBAR */
 .sidebar {
     width: 220px;
     height: 100vh;
-    background: #34495e;
+    background: rgba(0,0,0,0.8);
     position: fixed;
     padding-top: 60px;
 }
@@ -32,15 +33,16 @@ body {
 .sidebar button {
     width: 100%;
     padding: 15px;
-    border: none;
     background: none;
-    color: white;
+    border: none;
+    color: #00ffe5;
     text-align: left;
     cursor: pointer;
 }
 
 .sidebar button:hover {
-    background: #1abc9c;
+    background: #00ffe5;
+    color: black;
 }
 
 /* MAIN */
@@ -50,10 +52,10 @@ body {
 }
 
 .card {
-    background: white;
+    background: rgba(0,0,0,0.6);
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    box-shadow: 0 0 20px #00ffe5;
 }
 
 /* BOTONES */
@@ -62,87 +64,96 @@ body {
     width: 100%;
     margin: 10px 0;
     padding: 12px;
-    border-radius: 8px;
-    border: none;
+    border-radius: 10px;
+    border: 1px solid #00ffe5;
+    background: transparent;
+    color: #00ffe5;
     cursor: pointer;
-    background: #ecf0f1;
+    transition: 0.3s;
 }
 
-.correcto { background: #2ecc71; color: white; }
-.incorrecto { background: #e74c3c; color: white; }
-
-/* TABLA */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
+.opcion:hover {
+    background: #00ffe5;
+    color: black;
 }
 
-th, td {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    text-align: center;
-}
-
-th {
-    background: #3498db;
-    color: white;
-}
+.correcto { background: #00ff88; color: black; }
+.incorrecto { background: #ff0055; color: white; }
 
 /* LOGIN */
 #login {
     position: fixed;
     width: 100%;
     height: 100%;
-    background: #2c3e50;
+    background: black;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .login-box {
-    background: white;
+    background: rgba(0,0,0,0.9);
     padding: 30px;
-    border-radius: 10px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #00ffe5;
     text-align: center;
 }
 
 input {
     padding: 10px;
-    width: 200px;
-    margin-bottom: 10px;
+    margin: 10px;
+    background: black;
+    color: #00ffe5;
+    border: 1px solid #00ffe5;
 }
 
-button.start {
-    background: #3498db;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
+/* TABLA */
+table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
 }
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #00ffe5;
+}
+
+th {
+    background: #00ffe5;
+    color: black;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
 <div id="login">
     <div class="login-box">
         <h2>Ingreso al Sistema</h2>
         <input type="text" id="nombre" placeholder="Ingresa tu nombre">
         <br>
-        <button class="start" onclick="iniciar()">Ingresar</button>
+        <button onclick="iniciar()">Entrar</button>
     </div>
 </div>
 
 <div class="header">
-    <h1>🏥 Sistema PAMEC</h1>
+    <h2>🏥 PAMEC Futurista</h2>
     <div id="usuario"></div>
 </div>
 
 <div class="sidebar">
     <button onclick="mostrar('inicio')">🏠 Inicio</button>
-    <button onclick="mostrar('juego')">🎮 Juego</button>
+    <button onclick="mostrar('juego')">🎮 Simulación</button>
     <button onclick="mostrar('ranking')">🏆 Ranking</button>
 </div>
 
@@ -150,12 +161,12 @@ button.start {
 
 <div id="inicio" class="card">
     <h2>Bienvenido</h2>
-    <p>Sistema de capacitación basado en el enfoque centrado en el usuario.</p>
-    <h3>Puntaje actual: <span id="puntajeBox">0</span></h3>
+    <p>Simulación del enfoque centrado en el usuario.</p>
+    <h3>Puntaje: <span id="puntajeBox">0</span></h3>
 </div>
 
 <div id="juego" class="card" style="display:none;">
-    <h2>🎮 Juego</h2>
+    <h2>🎮 Simulación Clínica</h2>
     <h3 id="pregunta"></h3>
     <div id="opciones"></div>
     <p id="resultado"></p>
@@ -165,135 +176,122 @@ button.start {
     <h2>🏆 Mejores Puntajes</h2>
     <table>
         <thead>
-            <tr>
-                <th>Posición</th>
-                <th>Nombre</th>
-                <th>Puntaje</th>
-            </tr>
+            <tr><th>#</th><th>Nombre</th><th>Puntaje</th></tr>
         </thead>
         <tbody id="tablaRanking"></tbody>
     </table>
+</div>
+
+<div class="footer">
+    Desarrollado por Manuel Ricardo Chamorro Ruano 🚀
 </div>
 
 </div>
 
 <script>
 
-let usuario = "";
-let puntaje = 0;
-let indice = 0;
+let usuario="";
+let puntaje=0;
+let indice=0;
 
-let preguntas = [
-{
-    pregunta: "Paciente molesto por demora",
-    opciones: [
-        {texto:"Ignorarlo", correcta:false},
-        {texto:"Responder mal", correcta:false},
-        {texto:"Escuchar y explicar", correcta:true}
-    ]
-},
-{
-    pregunta: "Adulto mayor confundido",
-    opciones: [
-        {texto:"Explicar rápido", correcta:false},
-        {texto:"No explicar", correcta:false},
-        {texto:"Explicar con paciencia", correcta:true}
-    ]
-},
-{
-    pregunta: "Paciente ansioso",
-    opciones: [
-        {texto:"Decir que espere", correcta:false},
-        {texto:"Ignorarlo", correcta:false},
-        {texto:"Dar información clara", correcta:true}
-    ]
-}
+let preguntas=[
+{pregunta:"Paciente molesto por espera prolongada", opciones:[
+{text:"Ignorarlo", correcta:false},
+{text:"Responder brusco", correcta:false},
+{text:"Escuchar y explicar", correcta:true}
+]},
+{pregunta:"Paciente no entiende indicaciones", opciones:[
+{text:"Hablar rápido", correcta:false},
+{text:"No explicar", correcta:false},
+{text:"Explicar claro y verificar", correcta:true}
+]},
+{pregunta:"Paciente ansioso por diagnóstico", opciones:[
+{text:"Evitar contacto", correcta:false},
+{text:"Decir espere", correcta:false},
+{text:"Dar apoyo emocional", correcta:true}
+]},
+{pregunta:"Paciente inconforme con atención", opciones:[
+{text:"Discutir", correcta:false},
+{text:"Ignorar", correcta:false},
+{text:"Escuchar y buscar solución", correcta:true}
+]},
+{pregunta:"Familiar preocupado", opciones:[
+{text:"No responder", correcta:false},
+{text:"Responder seco", correcta:false},
+{text:"Informar con empatía", correcta:true}
+]}
 ];
 
 function iniciar(){
-    let nombre = document.getElementById("nombre").value;
-    if(nombre === ""){
-        alert("Ingrese su nombre");
-        return;
-    }
-    usuario = nombre;
-    document.getElementById("usuario").innerText = "👤 " + usuario;
-    document.getElementById("login").style.display = "none";
-    cargarPregunta();
+let n=document.getElementById("nombre").value;
+if(n===""){alert("Ingrese nombre");return;}
+usuario=n;
+document.getElementById("usuario").innerText="👤 "+usuario;
+document.getElementById("login").style.display="none";
+cargarPregunta();
 }
 
-function mostrar(sec){
-    document.getElementById("inicio").style.display="none";
-    document.getElementById("juego").style.display="none";
-    document.getElementById("ranking").style.display="none";
-    document.getElementById(sec).style.display="block";
-
-    if(sec==="ranking") cargarRanking();
+function mostrar(s){
+["inicio","juego","ranking"].forEach(id=>document.getElementById(id).style.display="none");
+document.getElementById(s).style.display="block";
+if(s==="ranking") cargarRanking();
 }
 
 function cargarPregunta(){
-    let p = preguntas[indice];
-    document.getElementById("pregunta").innerText = p.pregunta;
+let p=preguntas[indice];
+document.getElementById("pregunta").innerText=p.pregunta;
 
-    let html="";
-    p.opciones.forEach((op,i)=>{
-        html += `<button class="opcion" onclick="responder(${i})">${op.texto}</button>`;
-    });
+let html="";
+p.opciones.forEach((o,i)=>{
+html+=`<button class="opcion" onclick="responder(${i})">${o.text}</button>`;
+});
 
-    document.getElementById("opciones").innerHTML = html;
+document.getElementById("opciones").innerHTML=html;
 }
 
 function responder(i){
-    let correcta = preguntas[indice].opciones[i].correcta;
-    let botones = document.querySelectorAll(".opcion");
+let correcta=preguntas[indice].opciones[i].correcta;
+let btns=document.querySelectorAll(".opcion");
 
-    botones.forEach(b=>b.disabled=true);
+btns.forEach(b=>b.disabled=true);
 
-    if(correcta){
-        botones[i].classList.add("correcto");
-        document.getElementById("resultado").innerText="✅ +10";
-        puntaje+=10;
-    } else {
-        botones[i].classList.add("incorrecto");
-        document.getElementById("resultado").innerText="❌";
-    }
-
-    document.getElementById("puntajeBox").innerText = puntaje;
-
-    setTimeout(()=>{
-        indice++;
-        if(indice<preguntas.length){
-            cargarPregunta();
-        } else {
-            guardarPuntaje();
-            alert("Juego terminado. Puntaje: "+puntaje);
-        }
-    },1500);
+if(correcta){
+btns[i].classList.add("correcto");
+puntaje+=10;
+document.getElementById("resultado").innerText="✅ Excelente decisión";
+}else{
+btns[i].classList.add("incorrecto");
+document.getElementById("resultado").innerText="❌ Mejora tu enfoque";
 }
 
-function guardarPuntaje(){
-    let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
-    ranking.push({nombre: usuario, puntaje: puntaje});
+document.getElementById("puntajeBox").innerText=puntaje;
 
-    ranking.sort((a,b)=>b.puntaje-a.puntaje);
-    ranking = ranking.slice(0,5);
+setTimeout(()=>{
+indice++;
+if(indice<preguntas.length){
+cargarPregunta();
+}else{
+guardar();
+alert("Finalizado - Puntaje: "+puntaje);
+}
+},1500);
+}
 
-    localStorage.setItem("ranking", JSON.stringify(ranking));
+function guardar(){
+let r=JSON.parse(localStorage.getItem("ranking"))||[];
+r.push({nombre:usuario,puntaje:puntaje});
+r.sort((a,b)=>b.puntaje-a.puntaje);
+r=r.slice(0,5);
+localStorage.setItem("ranking",JSON.stringify(r));
 }
 
 function cargarRanking(){
-    let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
-    let html="";
-
-    ranking.forEach((r,i)=>{
-        html+=`<tr>
-        <td>${i+1}</td>
-        <td>${r.nombre}</td>
-        <td>${r.puntaje}</td>
-        </tr>`;
-    });
-
-    document.getElementById("tablaRanking").innerHTML = html;
+let r=JSON.parse(localStorage.getItem("ranking"))||[];
+let html="";
+r.forEach((e,i)=>{
+html+=`<tr><td>${i+1}</td><td>${e.nombre}</td><td>${e.puntaje}</td></tr>`;
+});
+document.getElementById("tablaRanking").innerHTML=html;
 }
 
 </script>
