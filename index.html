@@ -2,297 +2,290 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>PAMEC_Manuel Chamorro</title>
-<link rel="icon" href="./UNAD.ico" type="image/x-icon">
+<title>PAMEC Manuel Chamorro</title>
+<link rel="icon" href="UNAD.ico" type="image/x-icon">
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Orbitron', sans-serif;
-    background: radial-gradient(circle, #0f2027, #203a43, #2c5364);
-    color: #00ffe5;
+body{
+margin:0;
+font-family:'Segoe UI';
+
+/* FONDO CON IMAGEN */
+background: url("./fondo.png") no-repeat center center fixed;
+background-size: cover;
+
+color:#00ffe5;
+text-align:center;
 }
 
-/* HEADER */
-.header {
-    background: rgba(0,0,0,0.7);
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #00ffe5;
+.screen{display:none;padding:20px;}
+.active{display:block;}
+
+button{
+padding:12px;
+margin:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
 }
 
-/* SIDEBAR */
-.sidebar {
-    width: 220px;
-    height: 100vh;
-    background: rgba(0,0,0,0.8);
-    position: fixed;
-    padding-top: 60px;
-}
+.glow{text-shadow:0 0 10px #00ffe5;}
 
-.sidebar button {
-    width: 100%;
-    padding: 15px;
-    background: none;
-    border: none;
-    color: #00ffe5;
-    text-align: left;
-    cursor: pointer;
-}
+.bar{height:20px;background:#222;}
+.fill{height:100%;background:#00ff88;width:0%;transition:0.5s;}
 
-.sidebar button:hover {
-    background: #00ffe5;
-    color: black;
-}
+.drop{border:2px dashed #00ffe5;padding:20px;margin:10px;}
+.drag{padding:10px;background:#333;margin:5px;cursor:grab;}
 
-/* MAIN */
-.main {
-    margin-left: 220px;
-    padding: 20px;
-}
-
-.card {
-    background: rgba(0,0,0,0.6);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px #00ffe5;
-}
-
-/* BOTONES */
-.opcion {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #00ffe5;
-    background: transparent;
-    color: #00ffe5;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.opcion:hover {
-    background: #00ffe5;
-    color: black;
-}
-
-.correcto { background: #00ff88; color: black; }
-.incorrecto { background: #ff0055; color: white; }
-
-/* LOGIN */
-#login {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.login-box {
-    background: rgba(0,0,0,0.9);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px #00ffe5;
-    text-align: center;
-}
-
-input {
-    padding: 10px;
-    margin: 10px;
-    background: black;
-    color: #00ffe5;
-    border: 1px solid #00ffe5;
-}
-
-/* TABLA */
-table {
-    width: 100%;
-    margin-top: 10px;
-    border-collapse: collapse;
-}
-
-th, td {
-    padding: 10px;
-    border-bottom: 1px solid #00ffe5;
-}
-
-th {
-    background: #00ffe5;
-    color: black;
-}
-
-/* FOOTER */
-.footer {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 12px;
-    opacity: 0.7;
-}
-
+.correct-zone{border:2px solid #00ff88;}
+.wrong-zone{border:2px solid red;}
 </style>
 </head>
 
 <body>
 
-<div id="login">
-    <div class="login-box">
-        <h2>Ingreso al Sistema</h2>
-        <input type="text" id="nombre" placeholder="Ingresa tu nombre">
-        <br>
-        <button onclick="iniciar()">Entrar</button>
-    </div>
+<!-- INICIO -->
+<div id="inicio" class="screen active">
+<h1 class="glow">🎮 PAMEC BASADO AL ENFOQUE SELECCIONADO</h1>
+<input id="nombre" placeholder="Ingresa tu nombre"><br>
+<button onclick="start()">INICIAR</button>
 </div>
 
-<div class="header">
-    <h2>🏥 PAMEC BASADO AL ENFOQUE SELECCIONADO</h2>
-    <div id="usuario"></div>
+<!-- JUEGO -->
+<div id="game" class="screen">
+<h2 id="user"></h2>
+<div>❤️ <span id="vidas">3</span> | ⏱️ <span id="time">10</span></div>
+<div class="bar"><div id="fill" class="fill"></div></div>
+
+<h3 id="q"></h3>
+<div id="opts"></div>
 </div>
 
-<div class="sidebar">
-    <button onclick="mostrar('inicio')">🏠 Inicio</button>
-    <button onclick="mostrar('juego')">🎮 Simulación</button>
-    <button onclick="mostrar('ranking')">🏆 Ranking</button>
+<!-- DRAG -->
+<div id="drag" class="screen">
+<h2>🧩 Misión: Responde y completa</h2>
+<p>¿Cómo debe ser la atención en el enfoque centrado en el usuario?</p>
+<p><b>La atención debe ser ______ y centrada en el ______</b></p>
+
+<div id="d1" class="drop" ondrop="drop(event)" ondragover="allow(event)"></div>
+<div id="d2" class="drop" ondrop="drop(event)" ondragover="allow(event)"></div>
+
+<div>
+<div class="drag" draggable="true" ondragstart="drag(event)" id="humanizada">Humanizada</div>
+<div class="drag" draggable="true" ondragstart="drag(event)" id="paciente">Paciente</div>
+<div class="drag" draggable="true" ondragstart="drag(event)" id="dinero">Dinero</div>
 </div>
 
-<div class="main">
-
-<div id="inicio" class="card">
-    <h2>Bienvenido</h2>
-    <p>Simulación del enfoque centrado en el usuario.</p>
-    <h3>Puntaje: <span id="puntajeBox">0</span></h3>
+<button onclick="checkDrag()">Validar</button>
+<p id="feedback"></p>
 </div>
 
-<div id="juego" class="card" style="display:none;">
-    <h2>🎮 Simulación Clínica</h2>
-    <h3 id="pregunta"></h3>
-    <div id="opciones"></div>
-    <p id="resultado"></p>
-</div>
+<!-- FINAL -->
+<div id="final" class="screen">
+<h1 class="glow">🏆 MISIÓN COMPLETADA</h1>
+<h2 id="score"></h2>
 
-<div id="ranking" class="card" style="display:none;">
-    <h2>🏆 Mejores Puntajes</h2>
-    <table>
-        <thead>
-            <tr><th>#</th><th>Nombre</th><th>Puntaje</th></tr>
-        </thead>
-        <tbody id="tablaRanking"></tbody>
-    </table>
-</div>
+<button onclick="descargar()">📄 Descargar Certificado</button>
 
-<div class="footer">
-    Desarrollado por Manuel Ricardo Chamorro Ruano 🚀
-</div>
+<h3>Ranking</h3>
+<div id="ranking"></div>
 
+<p>Desarrollado por <b>Manuel Ricardo Chamorro Ruano</b> 🚀</p>
+<button onclick="location.reload()">Reiniciar</button>
 </div>
 
 <script>
 
-let usuario="";
-let puntaje=0;
-let indice=0;
+let nombre="", vidas=3, puntos=0, i=0, timer;
 
 let preguntas=[
-{pregunta:"Paciente molesto por espera prolongada", opciones:[
-{text:"Ignorarlo", correcta:false},
-{text:"Responder brusco", correcta:false},
-{text:"Escuchar y explicar", correcta:true}
-]},
-{pregunta:"Paciente no entiende indicaciones", opciones:[
-{text:"Hablar rápido", correcta:false},
-{text:"No explicar", correcta:false},
-{text:"Explicar claro y verificar", correcta:true}
-]},
-{pregunta:"Paciente ansioso por diagnóstico", opciones:[
-{text:"Evitar contacto", correcta:false},
-{text:"Decir espere", correcta:false},
-{text:"Dar apoyo emocional", correcta:true}
-]},
-{pregunta:"Paciente inconforme con atención", opciones:[
-{text:"Discutir", correcta:false},
-{text:"Ignorar", correcta:false},
-{text:"Escuchar y buscar solución", correcta:true}
-]},
-{pregunta:"Familiar preocupado", opciones:[
-{text:"No responder", correcta:false},
-{text:"Responder seco", correcta:false},
-{text:"Informar con empatía", correcta:true}
-]}
+{q:"¿Objetivo del enfoque?",opts:["Costos","Humanización","Producción"],c:1},
+{q:"Elemento clave?",opts:["Empatía","Ignorar","Rapidez"],c:0},
+{q:"Paciente molesto?",opts:["Ignorar","Escuchar","Discutir"],c:1}
 ];
 
-function iniciar(){
-let n=document.getElementById("nombre").value;
-if(n===""){alert("Ingrese nombre");return;}
-usuario=n;
-document.getElementById("usuario").innerText="👤 "+usuario;
-document.getElementById("login").style.display="none";
-cargarPregunta();
+function start(){
+nombre=document.getElementById("nombre").value;
+if(!nombre){alert("Ingresa nombre");return;}
+show("game");
+document.getElementById("user").innerText="👤 "+nombre;
+loadQ();
 }
 
-function mostrar(s){
-["inicio","juego","ranking"].forEach(id=>document.getElementById(id).style.display="none");
-document.getElementById(s).style.display="block";
-if(s==="ranking") cargarRanking();
+function show(id){
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
 }
 
-function cargarPregunta(){
-let p=preguntas[indice];
-document.getElementById("pregunta").innerText=p.pregunta;
+function loadQ(){
+if(i>=preguntas.length){show("drag");return;}
+
+let p=preguntas[i];
+document.getElementById("q").innerText=p.q;
 
 let html="";
-p.opciones.forEach((o,i)=>{
-html+=`<button class="opcion" onclick="responder(${i})">${o.text}</button>`;
+p.opts.forEach((o,idx)=>{
+html+=`<button onclick="ans(${idx})">${o}</button>`;
 });
+document.getElementById("opts").innerHTML=html;
 
-document.getElementById("opciones").innerHTML=html;
+startTimer();
+updateBar();
 }
 
-function responder(i){
-let correcta=preguntas[indice].opciones[i].correcta;
-let btns=document.querySelectorAll(".opcion");
+function ans(idx){
+let p=preguntas[i];
 
-btns.forEach(b=>b.disabled=true);
-
-if(correcta){
-btns[i].classList.add("correcto");
-puntaje+=10;
-document.getElementById("resultado").innerText="✅ Excelente decisión";
+if(idx===p.c){
+puntos+=10;
+sound(true);
 }else{
-btns[i].classList.add("incorrecto");
-document.getElementById("resultado").innerText="❌ Mejora tu enfoque";
+vidas--;
+document.getElementById("vidas").innerText=vidas;
+sound(false);
+if(vidas<=0){end();}
 }
 
-document.getElementById("puntajeBox").innerText=puntaje;
+i++;
+loadQ();
+}
 
-setTimeout(()=>{
-indice++;
-if(indice<preguntas.length){
-cargarPregunta();
+function startTimer(){
+let t=10;
+document.getElementById("time").innerText=t;
+clearInterval(timer);
+
+timer=setInterval(()=>{
+t--;
+document.getElementById("time").innerText=t;
+
+if(t<=0){
+vidas--;
+document.getElementById("vidas").innerText=vidas;
+clearInterval(timer);
+i++;
+loadQ();
+}
+},1000);
+}
+
+function updateBar(){
+document.getElementById("fill").style.width=(i/preguntas.length*100)+"%";
+}
+
+/* DRAG PRO */
+function allow(e){e.preventDefault();}
+function drag(e){e.dataTransfer.setData("text",e.target.id);}
+
+function drop(e){
+e.preventDefault();
+let data=e.dataTransfer.getData("text");
+let el=document.getElementById(data);
+if(e.target.innerHTML!="")return;
+e.target.innerHTML=el.innerText;
+el.style.display="none";
+}
+
+function checkDrag(){
+let d1=document.getElementById("d1").innerText.trim();
+let d2=document.getElementById("d2").innerText.trim();
+
+if(d1==="Humanizada" && d2==="Paciente"){
+puntos+=20;
+document.getElementById("feedback").innerText="✅ Correcto";
+sound(true);
 }else{
-guardar();
-alert("Finalizado - Puntaje: "+puntaje);
-}
-},1500);
+document.getElementById("feedback").innerText="❌ Incorrecto";
+sound(false);
 }
 
-function guardar(){
-let r=JSON.parse(localStorage.getItem("ranking"))||[];
-r.push({nombre:usuario,puntaje:puntaje});
-r.sort((a,b)=>b.puntaje-a.puntaje);
+setTimeout(()=>end(),1500);
+}
+
+/* FINAL */
+function end(){
+show("final");
+document.getElementById("score").innerText="Puntaje: "+puntos;
+saveRank();
+loadRank();
+}
+
+/* SONIDO */
+function sound(ok){
+let a=new Audio(ok?
+"https://www.soundjay.com/buttons/sounds/button-4.mp3":
+"https://www.soundjay.com/buttons/sounds/button-10.mp3");
+a.play();
+}
+
+/* RANKING */
+function saveRank(){
+let r=JSON.parse(localStorage.getItem("rank"))||[];
+r.push({n:nombre,p:puntos});
+r.sort((a,b)=>b.p-a.p);
 r=r.slice(0,5);
-localStorage.setItem("ranking",JSON.stringify(r));
+localStorage.setItem("rank",JSON.stringify(r));
 }
 
-function cargarRanking(){
-let r=JSON.parse(localStorage.getItem("ranking"))||[];
+function loadRank(){
+let r=JSON.parse(localStorage.getItem("rank"))||[];
 let html="";
 r.forEach((e,i)=>{
-html+=`<tr><td>${i+1}</td><td>${e.nombre}</td><td>${e.puntaje}</td></tr>`;
+html+=`<p>${i+1}. ${e.n} - ${e.p}</p>`;
 });
-document.getElementById("tablaRanking").innerHTML=html;
+document.getElementById("ranking").innerHTML=html;
+}
+
+/* CERTIFICADO */
+function descargar(){
+
+let canvas = document.createElement("canvas");
+canvas.width = 800;
+canvas.height = 600;
+
+let ctx = canvas.getContext("2d");
+
+/* FONDO */
+ctx.fillStyle = "#0f2027";
+ctx.fillRect(0,0,800,600);
+
+/* BORDE */
+ctx.strokeStyle = "#00ffe5";
+ctx.lineWidth = 4;
+ctx.strokeRect(20,20,760,560);
+
+/* TITULO */
+ctx.fillStyle = "#00ffe5";
+ctx.font = "bold 40px Arial";
+ctx.textAlign = "center";
+ctx.fillText("CERTIFICADO", 400, 120);
+
+/* SUBTITULO */
+ctx.font = "20px Arial";
+ctx.fillText("Se certifica que", 400, 180);
+
+/* NOMBRE */
+ctx.font = "bold 30px Arial";
+ctx.fillText(nombre, 400, 240);
+
+/* TEXTO */
+ctx.font = "20px Arial";
+ctx.fillText("Completó el sistema PAMEC", 400, 300);
+ctx.fillText("con un puntaje de: " + puntos, 400, 340);
+
+/* FIRMA */
+ctx.font = "16px Arial";
+ctx.fillText("Desarrollado por Manuel Ricardo Chamorro Ruano", 400, 500);
+
+/* FECHA */
+let fecha = new Date().toLocaleDateString();
+ctx.fillText("Fecha: " + fecha, 400, 540);
+
+/* DESCARGA */
+let link = document.createElement("a");
+link.download = "certificado_pamec.png";
+link.href = canvas.toDataURL();
+link.click();
 }
 
 </script>
