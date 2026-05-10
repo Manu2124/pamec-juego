@@ -137,9 +137,41 @@ color:white;
 let nombre="", vidas=3, puntos=0, i=0, timer;
 
 let preguntas=[
-{q:"¿Objetivo del enfoque?",opts:["Costos","Humanización","Producción"],c:1},
-{q:"Elemento clave?",opts:["Empatía","Ignorar","Rapidez"],c:0},
-{q:"Paciente molesto?",opts:["Ignorar","Escuchar","Discutir"],c:1}
+{
+q:"¿Objetivo del enfoque centrado en el usuario?",
+opts:["Reducir costos","Humanización","Producción"],
+c:1
+},
+{
+q:"¿Qué valor es fundamental en la atención?",
+opts:["Empatía","Ignorar","Autoridad"],
+c:0
+},
+{
+q:"Paciente molesto por demora",
+opts:["Escuchar","Discutir","Ignorar"],
+c:0
+},
+{
+q:"¿Qué mejora la satisfacción del usuario?",
+opts:["Mala comunicación","Buen trato","Desinterés"],
+c:1
+},
+{
+q:"¿Qué debe hacer el personal de salud?",
+opts:["Escuchar activamente","Evitar preguntas","Apresurar al paciente"],
+c:0
+},
+{
+q:"¿Qué busca el PAMEC?",
+opts:["Mejoramiento continuo","Más dinero","Menos usuarios"],
+c:0
+},
+{
+q:"¿Qué fortalece la atención humanizada?",
+opts:["Empatía","Desinterés","Indiferencia"],
+c:0
+}
 ];
 
 function start(){
@@ -326,6 +358,15 @@ link.href = canvas.toDataURL();
 link.click();
 }
 
+  function avatarSpeak(text){
+document.getElementById("avatarText").innerText=text;
+}
+
+  avatarSpeak("🚀 Bienvenido " + nombre + ", prepárate para la misión");
+  avatarSpeak("✨ Excelente decisión clínica");
+  avatarSpeak("⚠️ Recuerda priorizar la atención humanizada");
+  avatarSpeak("🏆 Felicidades, has completado el entrenamiento");
+  
 </script>
 
 </body>
