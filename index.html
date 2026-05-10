@@ -80,6 +80,59 @@ animation:flash 1s infinite;
 50%{transform:scale(1.05);}
 100%{transform:scale(1);}
 }
+
+  /* STORY MODE */
+
+#introStory{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:rgba(0,0,0,0.85);
+backdrop-filter:blur(5px);
+}
+
+.intro-box{
+width:70%;
+padding:40px;
+border:2px solid #00ffe5;
+border-radius:20px;
+background:rgba(0,0,0,0.7);
+box-shadow:0 0 30px #00ffe5;
+animation:pulse 2s infinite;
+}
+
+.cyber-title{
+font-size:40px;
+color:#00ffe5;
+text-shadow:0 0 20px #00ffe5;
+}
+
+#storyText{
+font-size:22px;
+margin-top:20px;
+min-height:120px;
+line-height:1.5;
+color:white;
+}
+
+@keyframes pulse{
+0%{box-shadow:0 0 20px #00ffe5;}
+50%{box-shadow:0 0 40px #00ffe5;}
+100%{box-shadow:0 0 20px #00ffe5;}
+}
+
+.glitch{
+animation:glitch 0.2s infinite;
+}
+
+@keyframes glitch{
+0%{transform:translate(1px,1px);}
+25%{transform:translate(-1px,-2px);}
+50%{transform:translate(-3px,0px);}
+75%{transform:translate(3px,2px);}
+100%{transform:translate(1px,-1px);}
+}
   
 </style>
 </head>
@@ -91,7 +144,25 @@ animation:flash 1s infinite;
 </div>
   
 <body>
+<!-- INTRO STORY MODE -->
+<div id="introStory" class="screen active">
 
+    <div class="intro-box">
+
+        <h1 class="cyber-title">
+            🏥 HOSPITAL CENTRAL UNAD 2077
+        </h1>
+
+        <p id="storyText"></p>
+
+        <button onclick="continuarIntro()" id="btnIntro" style="display:none;">
+            🚀 INICIAR ENTRENAMIENTO
+        </button>
+
+    </div>
+
+</div>
+  
 <!-- INICIO -->
 <div id="inicio" class="screen active">
 <h1 class="glow">🎮 PAMEC BASADO AL ENFOQUE SELECCIONADO</h1>
@@ -377,6 +448,60 @@ document.getElementById("avatarText").innerText=text;
   avatarSpeak("✨ Excelente decisión clínica");
   avatarSpeak("⚠️ Recuerda priorizar la atención humanizada");
   avatarSpeak("🏆 Felicidades, has completado el entrenamiento");
+
+  /* STORY MODE */
+
+let historia = [
+"⚡ Año 2077...",
+"🏥 El sistema de salud enfrenta una crisis de calidad...",
+"🤖 La IA médica AURA ha sido activada...",
+"🧠 Solo los mejores profesionales podrán restaurar la atención humanizada...",
+"🚀 Tu misión será completar el entrenamiento PAMEC..."
+];
+
+let linea = 0;
+let letra = 0;
+
+function escribirHistoria(){
+
+if(linea >= historia.length){
+document.getElementById("btnIntro").style.display="inline-block";
+return;
+}
+
+let texto = historia[linea];
+
+if(letra < texto.length){
+
+document.getElementById("storyText").innerHTML += texto.charAt(letra);
+
+letra++;
+
+setTimeout(escribirHistoria,40);
+
+}else{
+
+document.getElementById("storyText").innerHTML += "<br><br>";
+
+linea++;
+letra=0;
+
+setTimeout(escribirHistoria,800);
+
+}
+
+}
+
+function continuarIntro(){
+
+document.getElementById("introStory").classList.remove("active");
+
+document.getElementById("inicio").classList.add("active");
+
+}
+
+/* INICIAR HISTORIA AUTOMÁTICAMENTE */
+escribirHistoria();
   
 </script>
 
