@@ -39,9 +39,47 @@ cursor:pointer;
 
 .correct-zone{border:2px solid #00ff88;}
 .wrong-zone{border:2px solid red;}
+
+  #avatarBox{
+position:fixed;
+bottom:20px;
+right:20px;
+width:250px;
+background:rgba(0,0,0,0.8);
+border:2px solid #00ffe5;
+border-radius:15px;
+padding:10px;
+box-shadow:0 0 20px #00ffe5;
+animation:float 3s infinite ease-in-out;
+}
+
+#avatar{
+width:80px;
+border-radius:50%;
+border:2px solid #00ffe5;
+}
+
+#avatarText{
+margin-top:10px;
+font-size:14px;
+color:white;
+}
+
+@keyframes float{
+0%{transform:translateY(0px);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0px);}
+}
+  
 </style>
 </head>
 
+  <!-- AVATAR IA -->
+<div id="avatarBox">
+    <img src="./avatar.png" id="avatar">
+    <div id="avatarText">👋 Bienvenido al entrenamiento PAMEC</div>
+</div>
+  
 <body>
 
 <!-- INICIO -->
