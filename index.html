@@ -70,6 +70,16 @@ color:white;
 50%{transform:translateY(-10px);}
 100%{transform:translateY(0px);}
 }
+
+  .victory{
+animation:flash 1s infinite;
+}
+
+@keyframes flash{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
   
 </style>
 </head>
@@ -238,6 +248,7 @@ loadQ();
 }
 },1000);
 }
+  document.getElementById("final").classList.add("victory");
 
 function updateBar(){
 document.getElementById("fill").style.width=(i/preguntas.length*100)+"%";
