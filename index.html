@@ -1,462 +1,1241 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
-<title>PAMEC Manuel Chamorro</title>
-<link rel="icon" href="UNAD.ico" type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PAMEC GAMER 2077</title>
+
+<link rel="icon" href="UNAD.ico">
 
 <style>
+
+/* =========================================
+   RESET
+========================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* =========================================
+   BODY
+========================================= */
+
 body{
-margin:0;
-font-family:'Segoe UI';
 
-/* FONDO CON IMAGEN */
-background: url("./fondo.png") no-repeat center center fixed;
-background-size: cover;
+    font-family:'Segoe UI',sans-serif;
 
-color:#00ffe5;
-text-align:center;
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.75)
+    ),
+    url("./fondo.png");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+
+    color:white;
 }
 
-.screen{display:none;padding:20px;}
-.active{display:block;}
+/* =========================================
+   PANTALLAS
+========================================= */
 
-button{
-padding:12px;
-margin:10px;
-border:none;
-border-radius:8px;
-cursor:pointer;
+.screen{
+    display:none;
+    width:100%;
+    height:100vh;
+    padding:20px;
 }
 
-.glow{text-shadow:0 0 10px #00ffe5;}
-
-.bar{height:20px;background:#222;}
-.fill{height:100%;background:#00ff88;width:0%;transition:0.5s;}
-
-.drop{border:2px dashed #00ffe5;padding:20px;margin:10px;}
-.drag{padding:10px;background:#333;margin:5px;cursor:grab;}
-
-.correct-zone{border:2px solid #00ff88;}
-.wrong-zone{border:2px solid red;}
-
-  #avatarBox{
-position:fixed;
-bottom:20px;
-right:20px;
-width:250px;
-background:rgba(0,0,0,0.8);
-border:2px solid #00ffe5;
-border-radius:15px;
-padding:10px;
-box-shadow:0 0 20px #00ffe5;
-animation:float 3s infinite ease-in-out;
+.active{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
 }
 
-#avatar{
-width:80px;
-border-radius:50%;
-border:2px solid #00ffe5;
+/* =========================================
+   EFECTOS
+========================================= */
+
+.glow{
+    text-shadow:
+    0 0 10px #00ffe5,
+    0 0 20px #00ffe5,
+    0 0 30px #00ffe5;
 }
 
-#avatarText{
-margin-top:10px;
-font-size:14px;
-color:white;
+.card{
+
+    width:90%;
+    max-width:900px;
+
+    background:rgba(0,0,0,0.6);
+
+    border:2px solid #00ffe5;
+
+    border-radius:20px;
+
+    padding:40px;
+
+    backdrop-filter:blur(8px);
+
+    box-shadow:
+    0 0 25px #00ffe5,
+    inset 0 0 20px rgba(0,255,229,0.2);
+
+    animation:float 4s infinite ease-in-out;
 }
 
 @keyframes float{
-0%{transform:translateY(0px);}
-50%{transform:translateY(-10px);}
-100%{transform:translateY(0px);}
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
 }
 
-  .victory{
-animation:flash 1s infinite;
+/* =========================================
+   TITULOS
+========================================= */
+
+h1{
+    font-size:50px;
+    margin-bottom:20px;
+}
+
+h2{
+    margin-bottom:20px;
+}
+
+h3{
+    margin:20px 0;
+}
+
+/* =========================================
+   INPUT
+========================================= */
+
+input{
+
+    width:300px;
+
+    padding:15px;
+
+    border:none;
+    border-radius:12px;
+
+    outline:none;
+
+    font-size:16px;
+
+    margin-top:20px;
+
+    background:white;
+}
+
+/* =========================================
+   BOTONES
+========================================= */
+
+button{
+
+    margin-top:20px;
+
+    padding:15px 25px;
+
+    border:none;
+    border-radius:12px;
+
+    cursor:pointer;
+
+    background:#00ffe5;
+
+    color:black;
+
+    font-weight:bold;
+    font-size:16px;
+
+    transition:0.3s;
+}
+
+button:hover{
+
+    transform:scale(1.08);
+
+    box-shadow:
+    0 0 20px #00ffe5,
+    0 0 40px #00ffe5;
+}
+
+/* =========================================
+   BARRA
+========================================= */
+
+.bar{
+
+    width:100%;
+    height:20px;
+
+    background:#222;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-top:20px;
+}
+
+.fill{
+
+    width:0%;
+    height:100%;
+
+    background:
+    linear-gradient(
+        90deg,
+        #00ffe5,
+        #00ff88
+    );
+
+    transition:0.5s;
+}
+
+/* =========================================
+   OPCIONES
+========================================= */
+
+#opts{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+#opts button{
+    width:300px;
+}
+
+/* =========================================
+   AVATAR IA
+========================================= */
+
+#avatarBox{
+
+    position:fixed;
+
+    right:20px;
+    bottom:20px;
+
+    width:260px;
+
+    background:rgba(0,0,0,0.7);
+
+    border:2px solid #00ffe5;
+
+    border-radius:20px;
+
+    padding:15px;
+
+    backdrop-filter:blur(10px);
+
+    box-shadow:0 0 25px #00ffe5;
+
+    z-index:999;
+}
+
+#avatar{
+
+    width:90px;
+
+    border-radius:50%;
+
+    border:3px solid #00ffe5;
+}
+
+#avatarText{
+
+    margin-top:10px;
+
+    font-size:14px;
+
+    line-height:1.5;
+}
+
+/* =========================================
+   STORY MODE
+========================================= */
+
+#storyText{
+
+    font-size:22px;
+
+    margin-top:20px;
+
+    min-height:150px;
+
+    line-height:1.7;
+}
+
+/* =========================================
+   DRAG
+========================================= */
+
+.drop{
+
+    width:300px;
+
+    min-height:70px;
+
+    border:2px dashed #00ffe5;
+
+    border-radius:15px;
+
+    margin:10px auto;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(255,255,255,0.05);
+
+    padding:10px;
+}
+
+.drag{
+
+    width:220px;
+
+    padding:15px;
+
+    background:#111;
+
+    border:2px solid #00ffe5;
+
+    border-radius:12px;
+
+    margin:10px auto;
+
+    cursor:grab;
+
+    transition:0.3s;
+}
+
+.drag:hover{
+
+    transform:scale(1.05);
+
+    box-shadow:0 0 15px #00ffe5;
+}
+
+/* =========================================
+   FINAL
+========================================= */
+
+.victory{
+
+    animation:flash 1s infinite;
 }
 
 @keyframes flash{
-0%{transform:scale(1);}
-50%{transform:scale(1.05);}
-100%{transform:scale(1);}
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.03);
+    }
+
+    100%{
+        transform:scale(1);
+    }
 }
 
-  /* STORY MODE */
+/* =========================================
+   PARTICULAS
+========================================= */
 
-#introStory{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:rgba(0,0,0,0.85);
-backdrop-filter:blur(5px);
+.particle{
+
+    position:absolute;
+
+    width:4px;
+    height:4px;
+
+    background:#00ffe5;
+
+    border-radius:50%;
+
+    animation:particle 10s linear infinite;
 }
 
-.intro-box{
-width:70%;
-padding:40px;
-border:2px solid #00ffe5;
-border-radius:20px;
-background:rgba(0,0,0,0.7);
-box-shadow:0 0 30px #00ffe5;
-animation:pulse 2s infinite;
+@keyframes particle{
+
+    from{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+
+    to{
+        transform:translateY(-100vh);
+        opacity:1;
+    }
 }
 
-.cyber-title{
-font-size:40px;
-color:#00ffe5;
-text-shadow:0 0 20px #00ffe5;
-}
-
-#storyText{
-font-size:22px;
-margin-top:20px;
-min-height:120px;
-line-height:1.5;
-color:white;
-}
-
-@keyframes pulse{
-0%{box-shadow:0 0 20px #00ffe5;}
-50%{box-shadow:0 0 40px #00ffe5;}
-100%{box-shadow:0 0 20px #00ffe5;}
-}
-
-.glitch{
-animation:glitch 0.2s infinite;
-}
-
-@keyframes glitch{
-0%{transform:translate(1px,1px);}
-25%{transform:translate(-1px,-2px);}
-50%{transform:translate(-3px,0px);}
-75%{transform:translate(3px,2px);}
-100%{transform:translate(1px,-1px);}
-}
-  
 </style>
+
 </head>
 
-  <!-- AVATAR IA -->
-<div id="avatarBox">
-    <img src="./avatar.png" id="avatar">
-    <div id="avatarText">👋 Bienvenido al entrenamiento PAMEC</div>
-</div>
-  
 <body>
-<!-- INTRO STORY MODE -->
+
+<!-- =========================================
+     PARTICULAS
+========================================= -->
+
+<div class="particle" style="left:10%;animation-delay:0s;"></div>
+<div class="particle" style="left:20%;animation-delay:1s;"></div>
+<div class="particle" style="left:35%;animation-delay:2s;"></div>
+<div class="particle" style="left:50%;animation-delay:3s;"></div>
+<div class="particle" style="left:65%;animation-delay:4s;"></div>
+<div class="particle" style="left:80%;animation-delay:5s;"></div>
+<div class="particle" style="left:90%;animation-delay:6s;"></div>
+
+<!-- =========================================
+     AVATAR
+========================================= -->
+
+<div id="avatarBox">
+
+    <img src="./avatar.png" id="avatar">
+
+    <div id="avatarText">
+        🤖 IA AURA conectada...
+    </div>
+
+</div>
+
+<!-- =========================================
+     INTRO
+========================================= -->
+
 <div id="introStory" class="screen active">
 
-    <div class="intro-box">
+    <div class="card">
 
-        <h1 class="cyber-title">
+        <h1 class="glow">
             🏥 HOSPITAL CENTRAL UNAD 2077
         </h1>
 
         <p id="storyText"></p>
 
-        <button onclick="continuarIntro()" id="btnIntro" style="display:none;">
+        <button
+        id="btnIntro"
+        onclick="continuarIntro()"
+        style="display:none;">
+
             🚀 INICIAR ENTRENAMIENTO
+
         </button>
 
     </div>
 
 </div>
-  
-<!-- INICIO -->
-<div id="inicio" class="screen active">
-<h1 class="glow">🎮 PAMEC BASADO AL ENFOQUE SELECCIONADO</h1>
-<input id="nombre" placeholder="Ingresa tu nombre"><br>
-<button onclick="start()">INICIAR</button>
+
+<!-- =========================================
+     INICIO
+========================================= -->
+
+<div id="inicio" class="screen">
+
+    <div class="card">
+
+        <h1 class="glow">
+            🎮 PAMEC GAMER
+        </h1>
+
+        <p>
+            Sistema interactivo de entrenamiento
+            centrado en atención humanizada.
+        </p>
+
+        <input
+        type="text"
+        id="nombre"
+        placeholder="Ingresa tu nombre">
+
+        <br>
+
+        <button onclick="start()">
+            INICIAR MISIÓN
+        </button>
+
+    </div>
+
 </div>
 
-<!-- JUEGO -->
+<!-- =========================================
+     GAME
+========================================= -->
+
 <div id="game" class="screen">
-<h2 id="user"></h2>
-<div>❤️ <span id="vidas">3</span> | ⏱️ <span id="time">10</span></div>
-<div class="bar"><div id="fill" class="fill"></div></div>
 
-<h3 id="q"></h3>
-<div id="opts"></div>
+    <div class="card">
+
+        <h2 id="user"></h2>
+
+        <div>
+
+            ❤️ Vidas:
+            <span id="vidas">3</span>
+
+            |
+
+            ⏱️ Tiempo:
+            <span id="time">10</span>
+
+        </div>
+
+        <div class="bar">
+
+            <div id="fill" class="fill"></div>
+
+        </div>
+
+        <h3 id="q"></h3>
+
+        <div id="opts"></div>
+
+    </div>
+
 </div>
 
-<!-- DRAG -->
+<!-- =========================================
+     DRAG
+========================================= -->
+
 <div id="drag" class="screen">
-<h2>🧩 Misión: Responde y completa</h2>
-<p>¿Cómo debe ser la atención en el enfoque centrado en el usuario?</p>
-<p><b>La atención debe ser ______ y centrada en el ______</b></p>
 
-<div id="d1" class="drop" ondrop="drop(event)" ondragover="allow(event)"></div>
-<div id="d2" class="drop" ondrop="drop(event)" ondragover="allow(event)"></div>
+    <div class="card">
 
-<div>
-<div class="drag" draggable="true" ondragstart="drag(event)" id="humanizada">Humanizada</div>
-<div class="drag" draggable="true" ondragstart="drag(event)" id="paciente">Paciente</div>
-<div class="drag" draggable="true" ondragstart="drag(event)" id="dinero">Dinero</div>
+        <h1 class="glow">
+            🧩 MISIÓN FINAL
+        </h1>
+
+        <p>
+            Completa correctamente la frase:
+        </p>
+
+        <h3>
+            La atención debe ser ______
+            y centrada en el ______
+        </h3>
+
+        <div
+        id="d1"
+        class="drop"
+        ondrop="drop(event)"
+        ondragover="allow(event)">
+        </div>
+
+        <div
+        id="d2"
+        class="drop"
+        ondrop="drop(event)"
+        ondragover="allow(event)">
+        </div>
+
+        <div
+        class="drag"
+        draggable="true"
+        ondragstart="drag(event)"
+        id="humanizada">
+
+            Humanizada
+
+        </div>
+
+        <div
+        class="drag"
+        draggable="true"
+        ondragstart="drag(event)"
+        id="paciente">
+
+            Paciente
+
+        </div>
+
+        <div
+        class="drag"
+        draggable="true"
+        ondragstart="drag(event)"
+        id="dinero">
+
+            Dinero
+
+        </div>
+
+        <button onclick="checkDrag()">
+            VALIDAR RESPUESTA
+        </button>
+
+        <p id="feedback"></p>
+
+    </div>
+
 </div>
 
-<button onclick="checkDrag()">Validar</button>
-<p id="feedback"></p>
-</div>
+<!-- =========================================
+     FINAL
+========================================= -->
 
-<!-- FINAL -->
 <div id="final" class="screen">
-<h1 class="glow">🏆 MISIÓN COMPLETADA</h1>
-<h2 id="score"></h2>
 
-<button onclick="descargar()">📄 Descargar Certificado</button>
+    <div class="card victory">
 
-<h3>Ranking</h3>
-<div id="ranking"></div>
+        <h1 class="glow">
+            🏆 MISIÓN COMPLETADA
+        </h1>
 
-<p>Desarrollado por <b>Manuel Ricardo Chamorro Ruano</b> 🚀</p>
-<button onclick="location.reload()">Reiniciar</button>
+        <h2 id="score"></h2>
+
+        <button onclick="descargar()">
+            📄 DESCARGAR CERTIFICADO
+        </button>
+
+        <h3>🏅 Ranking Global</h3>
+
+        <div id="ranking"></div>
+
+        <br>
+
+        <button onclick="location.reload()">
+            🔄 REINICIAR
+        </button>
+
+    </div>
+
 </div>
 
 <script>
 
-let nombre="", vidas=3, puntos=0, i=0, timer;
+/* =========================================
+   VARIABLES
+========================================= */
 
-let preguntas=[
+let nombre = "";
+let vidas = 3;
+let puntos = 0;
+let i = 0;
+let timer;
+
+/* =========================================
+   PREGUNTAS
+========================================= */
+
+const preguntas = [
+
 {
 q:"¿Objetivo del enfoque centrado en el usuario?",
 opts:["Reducir costos","Humanización","Producción"],
 c:1
 },
+
 {
 q:"¿Qué valor es fundamental en la atención?",
 opts:["Empatía","Ignorar","Autoridad"],
 c:0
 },
+
 {
 q:"Paciente molesto por demora",
 opts:["Escuchar","Discutir","Ignorar"],
 c:0
 },
+
 {
 q:"¿Qué mejora la satisfacción del usuario?",
 opts:["Mala comunicación","Buen trato","Desinterés"],
 c:1
 },
-{
-q:"¿Qué debe hacer el personal de salud?",
-opts:["Escuchar activamente","Evitar preguntas","Apresurar al paciente"],
-c:0
-},
+
 {
 q:"¿Qué busca el PAMEC?",
 opts:["Mejoramiento continuo","Más dinero","Menos usuarios"],
 c:0
-},
-{
-q:"¿Qué fortalece la atención humanizada?",
-opts:["Empatía","Desinterés","Indiferencia"],
-c:0
 }
+
 ];
 
-function start(){
-nombre=document.getElementById("nombre").value;
-if(!nombre){alert("Ingresa nombre");return;}
-show("game");
-document.getElementById("user").innerText="👤 "+nombre;
-loadQ();
-}
+/* =========================================
+   MOSTRAR PANTALLAS
+========================================= */
 
 function show(id){
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
+
+document
+.querySelectorAll(".screen")
+.forEach(screen=>{
+
+screen.classList.remove("active");
+
+});
+
+document
+.getElementById(id)
+.classList.add("active");
+
 }
+
+/* =========================================
+   AVATAR
+========================================= */
+
+function avatarSpeak(text){
+
+document
+.getElementById("avatarText")
+.innerText = text;
+
+}
+
+/* =========================================
+   INICIO
+========================================= */
+
+function start(){
+
+nombre =
+document
+.getElementById("nombre")
+.value;
+
+if(nombre === ""){
+
+alert("Ingresa tu nombre");
+return;
+
+}
+
+avatarSpeak(
+"🚀 Bienvenido " +
+nombre +
+". La misión ha comenzado."
+);
+
+show("game");
+
+document
+.getElementById("user")
+.innerText =
+"👤 " + nombre;
+
+loadQ();
+
+}
+
+/* =========================================
+   PREGUNTAS
+========================================= */
 
 function loadQ(){
-if(i>=preguntas.length){show("drag");return;}
 
-let p=preguntas[i];
-document.getElementById("q").innerText=p.q;
+if(i >= preguntas.length){
 
-let html="";
-p.opts.forEach((o,idx)=>{
-html+=`<button onclick="ans(${idx})">${o}</button>`;
+clearInterval(timer);
+
+show("drag");
+
+return;
+
+}
+
+const p = preguntas[i];
+
+document
+.getElementById("q")
+.innerText = p.q;
+
+let html = "";
+
+p.opts.forEach((o,index)=>{
+
+html += `
+<button onclick="ans(${index})">
+${o}
+</button>
+`;
+
 });
-document.getElementById("opts").innerHTML=html;
+
+document
+.getElementById("opts")
+.innerHTML = html;
+
+updateBar();
 
 startTimer();
-updateBar();
+
 }
 
-function ans(idx){
-let p=preguntas[i];
+/* =========================================
+   RESPUESTAS
+========================================= */
 
-if(idx===p.c){
-puntos+=10;
+function ans(index){
+
+clearInterval(timer);
+
+const p = preguntas[i];
+
+if(index === p.c){
+
+puntos += 10;
+
 sound(true);
+
+avatarSpeak(
+"✨ Excelente decisión clínica."
+);
+
 }else{
+
 vidas--;
-document.getElementById("vidas").innerText=vidas;
+
 sound(false);
-if(vidas<=0){end();}
+
+avatarSpeak(
+"⚠️ Atención incorrecta."
+);
+
+document
+.getElementById("vidas")
+.innerText = vidas;
+
+if(vidas <= 0){
+
+end();
+return;
+
+}
+
 }
 
 i++;
+
 loadQ();
+
 }
+
+/* =========================================
+   TIMER
+========================================= */
 
 function startTimer(){
-let t=10;
-document.getElementById("time").innerText=t;
-clearInterval(timer);
 
-timer=setInterval(()=>{
+let t = 10;
+
+document
+.getElementById("time")
+.innerText = t;
+
+timer = setInterval(()=>{
+
 t--;
-document.getElementById("time").innerText=t;
 
-if(t<=0){
-vidas--;
-document.getElementById("vidas").innerText=vidas;
+document
+.getElementById("time")
+.innerText = t;
+
+if(t <= 0){
+
 clearInterval(timer);
+
+vidas--;
+
+document
+.getElementById("vidas")
+.innerText = vidas;
+
+avatarSpeak(
+"⏱️ Tiempo agotado."
+);
+
+if(vidas <= 0){
+
+end();
+return;
+
+}
+
 i++;
+
 loadQ();
+
 }
+
 },1000);
+
 }
-  document.getElementById("final").classList.add("victory");
+
+/* =========================================
+   PROGRESO
+========================================= */
 
 function updateBar(){
-document.getElementById("fill").style.width=(i/preguntas.length*100)+"%";
+
+const progreso =
+(i / preguntas.length) * 100;
+
+document
+.getElementById("fill")
+.style.width =
+progreso + "%";
+
 }
 
-/* DRAG PRO */
-function allow(e){e.preventDefault();}
-function drag(e){e.dataTransfer.setData("text",e.target.id);}
+/* =========================================
+   DRAG
+========================================= */
+
+function allow(e){
+
+e.preventDefault();
+
+}
+
+function drag(e){
+
+e.dataTransfer
+.setData("text",e.target.id);
+
+}
 
 function drop(e){
+
 e.preventDefault();
-let data=e.dataTransfer.getData("text");
-let el=document.getElementById(data);
-if(e.target.innerHTML!="")return;
-e.target.innerHTML=el.innerText;
-el.style.display="none";
+
+const data =
+e.dataTransfer.getData("text");
+
+const element =
+document.getElementById(data);
+
+if(e.target.children.length > 0){
+return;
 }
+
+e.target.appendChild(element);
+
+}
+
+/* =========================================
+   VALIDAR DRAG
+========================================= */
 
 function checkDrag(){
-let d1=document.getElementById("d1").innerText.trim();
-let d2=document.getElementById("d2").innerText.trim();
 
-if(d1==="Humanizada" && d2==="Paciente"){
-puntos+=20;
-document.getElementById("feedback").innerText="✅ Correcto";
+const d1 =
+document
+.getElementById("d1")
+.innerText.trim();
+
+const d2 =
+document
+.getElementById("d2")
+.innerText.trim();
+
+if(
+d1 === "Humanizada"
+&&
+d2 === "Paciente"
+){
+
+puntos += 20;
+
 sound(true);
+
+avatarSpeak(
+"🏆 Entrenamiento completado."
+);
+
+document
+.getElementById("feedback")
+.innerText =
+"✅ RESPUESTA CORRECTA";
+
 }else{
-document.getElementById("feedback").innerText="❌ Incorrecto";
+
 sound(false);
+
+document
+.getElementById("feedback")
+.innerText =
+"❌ RESPUESTA INCORRECTA";
+
 }
 
-setTimeout(()=>end(),1500);
+setTimeout(()=>{
+
+end();
+
+},1500);
+
 }
 
-/* FINAL */
+/* =========================================
+   FINAL
+========================================= */
+
 function end(){
+
+clearInterval(timer);
+
 show("final");
-document.getElementById("score").innerText="Puntaje: "+puntos;
+
+document
+.getElementById("score")
+.innerText =
+"🔥 Puntaje final: " +
+puntos;
+
 saveRank();
+
 loadRank();
+
+avatarSpeak(
+"🎖️ Certificación completada."
+);
+
 }
 
-/* SONIDO */
+/* =========================================
+   SONIDOS
+========================================= */
+
 function sound(ok){
-let a=new Audio(ok?
-"./button-4.mp3":
-"./button-10.mp3");
-a.play();
+
+const audio = new Audio(
+
+ok
+?
+"./button-4.mp3"
+:
+"./button-10.mp3"
+
+);
+
+audio.play();
+
 }
 
-/* RANKING */
+/* =========================================
+   RANKING
+========================================= */
+
 function saveRank(){
-let r=JSON.parse(localStorage.getItem("rank"))||[];
-r.push({n:nombre,p:puntos});
-r.sort((a,b)=>b.p-a.p);
-r=r.slice(0,5);
-localStorage.setItem("rank",JSON.stringify(r));
+
+let rank =
+JSON.parse(
+localStorage.getItem("rank")
+) || [];
+
+rank.push({
+n:nombre,
+p:puntos
+});
+
+rank.sort((a,b)=>b.p-a.p);
+
+rank = rank.slice(0,5);
+
+localStorage.setItem(
+"rank",
+JSON.stringify(rank)
+);
+
 }
 
 function loadRank(){
-let r=JSON.parse(localStorage.getItem("rank"))||[];
-let html="";
-r.forEach((e,i)=>{
-html+=`<p>${i+1}. ${e.n} - ${e.p}</p>`;
+
+const rank =
+JSON.parse(
+localStorage.getItem("rank")
+) || [];
+
+let html = "";
+
+rank.forEach((e,index)=>{
+
+html += `
+<p>
+${index+1}.
+${e.n}
+-
+${e.p} pts
+</p>
+`;
+
 });
-document.getElementById("ranking").innerHTML=html;
+
+document
+.getElementById("ranking")
+.innerHTML = html;
+
 }
 
-/* CERTIFICADO */
+/* =========================================
+   CERTIFICADO
+========================================= */
+
 function descargar(){
 
-let canvas = document.createElement("canvas");
-canvas.width = 800;
+const canvas =
+document.createElement("canvas");
+
+canvas.width = 900;
 canvas.height = 600;
 
-let ctx = canvas.getContext("2d");
+const ctx =
+canvas.getContext("2d");
 
 /* FONDO */
-ctx.fillStyle = "#0f2027";
-ctx.fillRect(0,0,800,600);
+
+ctx.fillStyle = "#07131d";
+ctx.fillRect(0,0,900,600);
 
 /* BORDE */
+
 ctx.strokeStyle = "#00ffe5";
-ctx.lineWidth = 4;
-ctx.strokeRect(20,20,760,560);
+ctx.lineWidth = 5;
+ctx.strokeRect(20,20,860,560);
 
 /* TITULO */
+
 ctx.fillStyle = "#00ffe5";
-ctx.font = "bold 40px Arial";
+
+ctx.font = "bold 45px Arial";
+
 ctx.textAlign = "center";
-ctx.fillText("CERTIFICADO", 400, 120);
 
-/* SUBTITULO */
-ctx.font = "20px Arial";
-ctx.fillText("Se certifica que", 400, 180);
-
-/* NOMBRE */
-ctx.font = "bold 30px Arial";
-ctx.fillText(nombre, 400, 240);
+ctx.fillText(
+"CERTIFICADO PAMEC",
+450,
+120
+);
 
 /* TEXTO */
-ctx.font = "20px Arial";
-ctx.fillText("Completó el sistema PAMEC", 400, 300);
-ctx.fillText("con un puntaje de: " + puntos, 400, 340);
+
+ctx.fillStyle = "white";
+
+ctx.font = "25px Arial";
+
+ctx.fillText(
+"Se certifica que",
+450,
+200
+);
+
+/* NOMBRE */
+
+ctx.font = "bold 35px Arial";
+
+ctx.fillText(
+nombre,
+450,
+270
+);
+
+ctx.font = "24px Arial";
+
+ctx.fillText(
+"Completó exitosamente el",
+450,
+340
+);
+
+ctx.fillText(
+"Entrenamiento Gamer PAMEC",
+450,
+380
+);
+
+ctx.fillText(
+"Puntaje obtenido: " + puntos,
+450,
+430
+);
 
 /* FIRMA */
-ctx.font = "16px Arial";
-ctx.fillText("Desarrollado por Manuel Ricardo Chamorro Ruano", 400, 500);
+
+ctx.font = "18px Arial";
+
+ctx.fillText(
+"Desarrollado por Manuel Ricardo Chamorro Ruano",
+450,
+520
+);
 
 /* FECHA */
-let fecha = new Date().toLocaleDateString();
-ctx.fillText("Fecha: " + fecha, 400, 540);
 
-/* DESCARGA */
-let link = document.createElement("a");
-link.download = "certificado_pamec.png";
-link.href = canvas.toDataURL();
+const fecha =
+new Date().toLocaleDateString();
+
+ctx.fillText(
+"Fecha: " + fecha,
+450,
+555
+);
+
+/* DESCARGAR */
+
+const link =
+document.createElement("a");
+
+link.download =
+"certificado_pamec.png";
+
+link.href =
+canvas.toDataURL();
+
 link.click();
+
 }
 
-  function avatarSpeak(text){
-document.getElementById("avatarText").innerText=text;
-}
+/* =========================================
+   HISTORIA
+========================================= */
 
-  avatarSpeak("🚀 Bienvenido " + nombre + ", prepárate para la misión");
-  avatarSpeak("✨ Excelente decisión clínica");
-  avatarSpeak("⚠️ Recuerda priorizar la atención humanizada");
-  avatarSpeak("🏆 Felicidades, has completado el entrenamiento");
+const historia = [
 
-  /* STORY MODE */
-
-let historia = [
 "⚡ Año 2077...",
-"🏥 El sistema de salud enfrenta una crisis de calidad...",
-"🤖 La IA médica AURA ha sido activada...",
-"🧠 Solo los mejores profesionales podrán restaurar la atención humanizada...",
-"🚀 Tu misión será completar el entrenamiento PAMEC..."
+
+"🏥 El sistema de salud ha colapsado...",
+
+"🤖 La IA médica AURA fue activada...",
+
+"🧠 Solo el mejor profesional podrá restaurar la atención humanizada...",
+
+"🚀 Tu entrenamiento PAMEC está por comenzar..."
+
 ];
 
 let linea = 0;
@@ -465,44 +1244,74 @@ let letra = 0;
 function escribirHistoria(){
 
 if(linea >= historia.length){
-document.getElementById("btnIntro").style.display="inline-block";
+
+document
+.getElementById("btnIntro")
+.style.display =
+"inline-block";
+
 return;
+
 }
 
-let texto = historia[linea];
+const texto =
+historia[linea];
 
 if(letra < texto.length){
 
-document.getElementById("storyText").innerHTML += texto.charAt(letra);
+document
+.getElementById("storyText")
+.innerHTML +=
+texto.charAt(letra);
 
 letra++;
 
-setTimeout(escribirHistoria,40);
+setTimeout(
+escribirHistoria,
+40
+);
 
 }else{
 
-document.getElementById("storyText").innerHTML += "<br><br>";
+document
+.getElementById("storyText")
+.innerHTML += "<br><br>";
 
 linea++;
-letra=0;
 
-setTimeout(escribirHistoria,800);
+letra = 0;
+
+setTimeout(
+escribirHistoria,
+800
+);
 
 }
 
 }
+
+/* =========================================
+   CONTINUAR INTRO
+========================================= */
 
 function continuarIntro(){
 
-document.getElementById("introStory").classList.remove("active");
+document
+.getElementById("introStory")
+.classList.remove("active");
 
-document.getElementById("inicio").classList.add("active");
+document
+.getElementById("inicio")
+.classList.add("active");
 
 }
 
-/* INICIAR HISTORIA AUTOMÁTICAMENTE */
+/* =========================================
+   INICIAR HISTORIA
+========================================= */
+
 escribirHistoria();
-  
+
 </script>
 
 </body>
